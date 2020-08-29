@@ -1,59 +1,46 @@
-# python_template Repo
-A template for new Python projects
+# gnp_pygame - personal PyGame utilities
 
-# How to run tools against the code
+A library that contains a collection of [PyGame](https://www.pygame.org/) utilities I wrote many years ago,
+early in my Python journey.  They are generally poorly written and structured.
+But, they have a couple good ideas and used in a game or two of mine.  So, here
+they are:
 
-    # create virual environment
-    python -m venv venv
+- `gnipMath.py`: 2D/3D vectors, lerp, trig, range, polar coordinates, bare-bones matrix operations
+- `gnpcollision.py`: Initial palceholder implementations of a few collision math routines
+- `gnppygame.py`: `Game` and `GameWithStates` (state machines that drives a games flow), PyGame helpers (fonts, timers, audio, frame delta, joystick), `Actor` (game objects with lifetime) and `ActorList` classes
+- `gnpactor.py`: a collection of ready-to-use `Actor` subclasses
+- `gnpinput.py`: logic to synthesize higher-level input features (holds, joystick axis-presses)
+- `gnpparticle.py`: Particle systems library, provides `Emitter` and `Particle` classes along with a number of pre-build `Emitter` subclasses 
+
+
+# Installation
+
+## ...for use
+
+    pip install git+https://github.com/SirGnip/gnp_pygame.git
     
-    # install to current environment (with current dir at top of repo) 
-    pip install .     # "static" install
-    pip install -e .  # "editable" install (setup.py handles source being under `src/`)
+## ...for development
 
-    # run app from instal
-    python -m gnp
+    # Open a GitBash shell
+    git clone https://github.com/SirGnip/gnp_pygame.git
+    cd gnp_pygame
+    py -2 -m virtualenv venv
+    source venv/Scripts/activate
+    pip install -e .
+
+
+# Running tests
+
+    # doctests
+    pytest --doctest-module --verbose
     
-    # run app directly from local repo (with current dir at top of repo)
-    cd src/
-    python -m gnp
+    # unittest-based tests
+    pytest --pyargs gnp_pygame.gnpinput --verbose
     
-    # run tests: path-based 
-    python -m pytest tests/
-    python -m pytest tests/test_common.py
-    python -m pytest tests/sub
-    # run tests: package syntax
-    python -m pytest --pyargs tests.sub
+    # interactive demo/smoke test that exercises a lot of code in gnppygame
+    python -m gnp_pygame.gnppygame
 
-    # run tests with coverage metrics
-    python -m pytest --cov tests/
-    python -m pytest --cov tests/sub
-    python -m pytest --cov tests.sub
+(Note: The pytest tool is used solely for its ability to discover and run
+both doctests and unittest based tests. No tests are (currently) written
+using the pytest format.)
 
-    # run linting
-    pylint src/  # recurses into directory
-    pylint src/ tests/
-    pylint gnp.common  # can use package names to lint what is installed
-    
-    # run mypy
-    mypy src/  # recurses into directory tree
-    mypy src/gnp/common/util.py
-
-    cd src
-    mypy -p gnp
-    mypy -p gnp.common
-    mypy -m gnp.common.util
-
-
-# Running app from PyCharm
-
-## Use Default Python Interpreter from PyCharm
-- For `src/`, do "Mark Directory" and set as "Sources Root" (folder turns light blue) 
-- Right click on `src/gnp/__main__.py` and choose "Run \_\_main\_\_"
-    - This relies on the Run Configuration having "Add source roots to PYTHONPATH" set to true (the default)
-
-## Use local venv
-- Create venv
-- Install package into the venv (ex: `pip install -e .`)
-- Set venv as the project's Python interpreter in PyCharm
-- Right click on `src/gnp/__misc__.py` and choose "Run \_\_main\_\_"
-    - Note: This does NOT rely on a Sources Root folder being set or PYTHONPATH in the Run Configuration.
