@@ -400,6 +400,16 @@ class cRange:
 class cVector2:
     '''
     2D vector class
+
+    >>> v = cVector2()
+    >>> v1 = cVector2(1, 2)
+    >>> v2 = cVector2(2, 3)
+    >>> print(v1 + v2)
+    (3.000000, 5.000000)
+
+    >>> v = cVector2(1, 1)
+    >>> print(v.Normalize())
+    (0.707107, 0.707107)
     '''
     def __init__(self, x = 0.0, y = 0.0):
         if isinstance(x, (list, tuple)):
@@ -553,7 +563,7 @@ class cVector2:
         '''Scalar multiplication (reverse: scalar * vector)'''
         return self * lhs
 
-    def __div__(self, rhs):
+    def __truediv__(self, rhs):
         '''Scalar division'''
         return self * (1.0 / rhs)
 
@@ -688,7 +698,7 @@ class cVector3:
         '''Scalar multiplication (reverse: scalar * vector)'''
         return self * lhs
         
-    def __div__(self, rhs):
+    def __truediv__(self, rhs):
         '''Scalar division'''
         return self * (1.0 / rhs)
 
