@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="gnp_pygame",
-    version="1.0.0",
+    version="2.0.0",
     description="Personal PyGame utilities",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -19,13 +19,12 @@ setuptools.setup(
     packages=setuptools.find_packages(where="src"),
     package_dir={"": "src"},
     classifiers=[
-        "Programming Language :: Python :: 2",
+        "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
     ],
 
-    python_requires='>=2.7',
+    python_requires='>=3.7',
     install_requires=[
-        "pygame>=1.9",
-        "pytest>=4.6",
+        "pygame>=1.9.6,<2.0",
     ],
 )

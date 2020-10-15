@@ -133,16 +133,16 @@ GOLD       = pygame.color.Color('gold')
 ########################################
 
 def dbg_print_surface_info(s, msg=''):
-    print 'Surface Info  ', msg
-    print '  Rect:      ', s.get_rect()
-    print '  Alpha:     ', s.get_alpha()
-    print '  BitSize:   ', s.get_bitsize()
-    print '  ByteSize:  ', s.get_bytesize()
-    print '  get_flags: ', s.get_flags()
-    print '  get_pitch: ', s.get_pitch()
-    print '  get_masks: ', s.get_masks()
-    print '  get_shifts:', s.get_shifts()
-    print '  get_losses:', s.get_losses()
+    print('Surface Info  ', msg)
+    print('  Rect:      ', s.get_rect())
+    print('  Alpha:     ', s.get_alpha())
+    print('  BitSize:   ', s.get_bitsize())
+    print('  ByteSize:  ', s.get_bytesize())
+    print('  get_flags: ', s.get_flags())
+    print('  get_pitch: ', s.get_pitch())
+    print('  get_masks: ', s.get_masks())
+    print('  get_shifts:', s.get_shifts())
+    print('  get_losses:', s.get_losses())
 
 
 def dbg_dump_surface(surface, subrect=None):
@@ -152,14 +152,14 @@ def dbg_dump_surface(surface, subrect=None):
 
     headers = [x for x in range(subrect.x, subrect.right)]
     headers = ['%8s' % num for num in headers]
-    print '%4s %s' % ('', ' '.join(headers))
+    print('%4s %s' % ('', ' '.join(headers)))
 
     for y in range(subrect.y, subrect.bottom):
         pixs = []
         for x in range(subrect.x, subrect.right):
             clr = surface.get_at((x, y))
             pixs.append('%02x%02x%02x%02x' % tuple(clr))
-        print '%4d' % y + ' ' + ' '.join(pixs)
+        print('%4d' % y + ' ' + ' '.join(pixs))
 
 
 ########################################
@@ -303,7 +303,7 @@ class TimerManager(object):
             
     def dbg_print(self):
         for idx, timer in enumerate(self._timers):
-            print '%d - %f -> %s' % (idx, timer[0], timer[1].func_name)
+            print('%d - %f -> %s' % (idx, timer[0], timer[1].__name__))
 
 
 ########################################
@@ -357,7 +357,7 @@ class FontManager(object):
 
         antialias - Whether to draw the text anti-aliased or not."""
         pair = (font_name, size)
-        assert self._font_dict.has_key(pair), 'Font: %s Size: %d is not available in cFontManager.' % pair
+        assert pair in self._font_dict, 'Font: %s Size: %d is not available in cFontManager.' % pair
         font_surf = self._font_dict[(font_name, size)].render(text, antialias, color)
         if isinstance(rect_or_pos_to_draw_to, tuple):
             surface.blit(font_surf, rect_or_pos_to_draw_to)
@@ -388,7 +388,7 @@ class AudioManager(object):
         self._enabled_music = True
         self._obj_dict = {}
         self._group_dict = {}
-        print("Loading audio from directory: %s (cwd: %s)" % (audio_directory, os.getcwd()))
+        print(("Loading audio from directory: %s (cwd: %s)" % (audio_directory, os.getcwd())))
         files = os.listdir(audio_directory)
         for fname in files:
             full_path_name = os.path.join(audio_directory, fname)
@@ -407,44 +407,44 @@ class AudioManager(object):
     # Sound object Adapters (design pattern) around the pygame.mixer.Sound class
     def play(self, tag, loops=0, maxtime=0):
         if self._enabled_sfx:
-            assert self._obj_dict.has_key(tag), 'Sound Manager does not have a sound loaded with the tag %s' % tag
+            assert tag in self._obj_dict, 'Sound Manager does not have a sound loaded with the tag %s' % tag
             return self._obj_dict[tag].play(loops, maxtime)
         else:
             return None
 
     def stop(self, tag):
         if self._enabled_sfx:
-            assert self._obj_dict.has_key(tag), 'Sound Manager does not have a sound loaded with the tag %s' % tag
+            assert tag in self._obj_dict, 'Sound Manager does not have a sound loaded with the tag %s' % tag
             self._obj_dict[tag].stop()
 
     def fadeout(self, tag, time):
         if self._enabled_sfx:
-            assert self._obj_dict.has_key(tag), 'Sound Manager does not have a sound loaded with the tag %s' % tag
+            assert tag in self._obj_dict, 'Sound Manager does not have a sound loaded with the tag %s' % tag
             self._obj_dict[tag].fadeout(time)
 
     def set_volume(self, tag, volume):
         if self._enabled_sfx:
-            assert self._obj_dict.has_key(tag), 'Sound Manager does not have a sound loaded with the tag %s' % tag
+            assert tag in self._obj_dict, 'Sound Manager does not have a sound loaded with the tag %s' % tag
             assert 0.0 >= volume <= 1.0, 'Can not set out of range volume (f) to %s' % (volume, tag)
             self._obj_dict[tag].set_volume(volume)
 
     def get_volume(self, tag):
         if self._enabled_sfx:
-            assert self._obj_dict.has_key(tag), 'Sound Manager does not have a sound loaded with the tag %s' % tag
+            assert tag in self._obj_dict, 'Sound Manager does not have a sound loaded with the tag %s' % tag
             return self._obj_dict[tag].get_volume()
         else:
             return 0.0
     ##### end of Sound class Adapters
 
     def add_group(self, group_key, sound_key_tuple):
-        assert not self._group_dict.has_key(group_key), 'Sound Manager already has a Group with the key %s' % group_key
+        assert group_key not in self._group_dict, 'Sound Manager already has a Group with the key %s' % group_key
         assert len(sound_key_tuple) > 0, 'Sound Manager expects a non-empty tuple when creating a Group'
         for key in sound_key_tuple:
-            assert self._obj_dict.has_key(key), 'Sound Manager can not create a Group with a sound key (%s) that does not exist' % key
+            assert key in self._obj_dict, 'Sound Manager can not create a Group with a sound key (%s) that does not exist' % key
         self._group_dict[group_key] = sound_key_tuple
 
     def play_group(self, group_key):
-        assert self._group_dict.has_key(group_key), 'Sound Manager does not have a Group with the key: %s.' % group_key
+        assert group_key in self._group_dict, 'Sound Manager does not have a Group with the key: %s.' % group_key
         self.play(random.choice(self._group_dict[group_key]))
 
     @staticmethod
@@ -654,7 +654,7 @@ class Joy(object):
 
     @staticmethod
     def joy_factory(id=0):
-        print '# of joysticks %d' % pygame.joystick.get_count()
+        print('# of joysticks %d' % pygame.joystick.get_count())
         if id > (pygame.joystick.get_count() - 1):
             return None
         else:
@@ -665,18 +665,18 @@ class Joy(object):
         self._joy = pygame.joystick.Joystick(id)
         self._joy.init()
         self._deadzone = 0.15
-        print 'Found joystick id:%d name:%s numButtons:%d numAxes:%d numHats:%s' % (
+        print('Found joystick id:%d name:%s numButtons:%d numAxes:%d numHats:%s' % (
             self._joy.get_id(),
             self._joy.get_name(),
             self._joy.get_numbuttons(),
             self._joy.get_numaxes(),
-            self._joy.get_numhats())
+            self._joy.get_numhats()))
         self._map_buttons()
 
     def _map_buttons(self):
         joy = self._joy
         if joy.get_name() == 'ZD-V' and joy.get_numbuttons() == 13:
-            print 'Buttons mapped on id:%d as ZD-V "red"' % joy.get_id()
+            print('Buttons mapped on id:%d as ZD-V "red"' % joy.get_id())
             self.btn_face_left = 3
             self.btn_face_right = 1
             self.btn_face_up = 0
@@ -690,7 +690,7 @@ class Joy(object):
             self.btn_hat_up = None
             self.btn_hat_down = None
         elif joy.get_name() == 'ZD-V' and joy.get_numbuttons() == 15:
-            print 'Buttons mapped on id:%d as ZD-V "purple"' % joy.get_id()
+            print('Buttons mapped on id:%d as ZD-V "purple"' % joy.get_id())
             self.btn_face_left = 3
             self.btn_face_right = 1
             self.btn_face_up = 4
@@ -704,7 +704,7 @@ class Joy(object):
             self.btn_hat_up = None
             self.btn_hat_down = None
         elif joy.get_name() == 'Controller (ZD Game For Windows)' and joy.get_numbuttons() == 10:
-            print 'Buttons mapped on id:%d as ZD Game "blue"' % joy.get_id()
+            print('Buttons mapped on id:%d as ZD Game "blue"' % joy.get_id())
             self.btn_face_left = 2
             self.btn_face_right = 1
             self.btn_face_up = 3
@@ -718,7 +718,7 @@ class Joy(object):
             self.btn_hat_up = None
             self.btn_hat_down = None
         elif joy.get_name() == 'USB Joystick          ':
-            print 'Buttons mapped on id:%d as USB Joystick' % joy.get_id()
+            print('Buttons mapped on id:%d as USB Joystick' % joy.get_id())
             self.btn_face_left = 3
             self.btn_face_right = 1
             self.btn_face_up = 0
@@ -732,7 +732,7 @@ class Joy(object):
             self.btn_hat_up = None
             self.btn_hat_down = None
         else:
-            print 'Buttons mapped on id:%d as default/PS2' % joy.get_id()
+            print('Buttons mapped on id:%d as default/PS2' % joy.get_id())
             self.btn_face_left = 3
             self.btn_face_right = 1
             self.btn_face_up = 0
@@ -914,7 +914,7 @@ class GameWithStates(Game):
             self.__state.step(time_delta)
         else:
             # TODO: Currently, the initial state of an application will go thru step() once without a current state
-            print 'WARNING: skipping step because there is no state'
+            print('WARNING: skipping step because there is no state')
         self._do_state_change()
 
     def _do_state_change(self):
@@ -1042,7 +1042,7 @@ class DemoJoystickState(GameState):
             self.timer_mgr.add(3.0, self.query_end)
 
     def query_end(self):
-        print 'You moved Axis ID: %d' % self.joys[0].query_axis_end_and_get_id()
+        print('You moved Axis ID: %d' % self.joys[0].query_axis_end_and_get_id())
         self.query_start()
         
     def step(self, time_delta):
@@ -1123,7 +1123,7 @@ class DemoTimerManager(GameState):
             self.change_state(DemoParticleSystemProto(self.owner()))
 
     def timer_fired(self):
-        print 'timer fired after 1 second...'
+        print('timer fired after 1 second...')
         self.timer_mgr.add(1.0, self.timer_fired)
         self.display_stuff = not self.display_stuff
 
@@ -1157,9 +1157,9 @@ class DemoAudioState(GameState):
         self.timer_mgr = TimerManager()
         self.add_timer()
 
-        print 'starting to load'
+        print('starting to load')
         self.audio_mgr = AudioManager('sounds')
-        print 'done loading'
+        print('done loading')
         self.audio_mgr.play('ARROW')
 
     def step(self, time_delta):

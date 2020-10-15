@@ -24,9 +24,10 @@ they are:
     # Open a GitBash shell
     git clone https://github.com/SirGnip/gnp_pygame.git
     cd gnp_pygame
-    py -2 -m virtualenv venv
+    py -3.7 -m venv venv
     source venv/Scripts/activate
     pip install -e .
+    pip install -r dev_requirements.txt
 
 
 # Running tests

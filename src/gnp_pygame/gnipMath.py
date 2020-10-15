@@ -1,5 +1,6 @@
 import math
 import random
+from functools import reduce
 
 # 3D Math Library
 # 
@@ -67,7 +68,7 @@ def NearestMultiple(num, target):
     90
     '''
     #return(int(num/target)*target) # Base Equation: the largest possible multiple of target that is less than or equal to num
-    return int((num+(target/2))/target)*target  # (target/2) is an offset to the equation above
+    return int((num+(target//2))//target)*target  # (target/2) is an offset to the equation above
 
 def _LCM(a, b):
     '''helper function for LCM'''
@@ -260,16 +261,16 @@ class cRange:
     than hi, etc.
 
     >>> r = cRange()
-    >>> print r
+    >>> print(r)
     (<empty cRange>)
     >>> r = cRange(-5.0, 5.0)
-    >>> print r
+    >>> print(r)
     (-5.000000 -> 5.000000)
     >>> r.Include(27.0)
-    >>> print r
+    >>> print(r)
     (-5.000000 -> 27.000000)
     >>> r.Include(-15.0)
-    >>> print r
+    >>> print(r)
     (-15.000000 -> 27.000000)
     >>> r.Span()
     42.0
@@ -295,9 +296,9 @@ class cRange:
     99.0
     >>> r.ClampLo(-30.0)
     -15.0
-    >>> print r.lo
+    >>> print(r.lo)
     -15.0
-    >>> print r.hi
+    >>> print(r.hi)
     27.0
     '''
     def __init__(self, lo = None, hi = None):
@@ -330,7 +331,7 @@ class cRange:
         Used to make .lo and .hi read-only.
         NOTE: it is still technically possible to reach in and directly modify the private ._lo and ._hi, but this would be "impolite".'''
         if name in ('lo', 'hi'):
-            raise AttributeError, 'Attribute "%s" is read-only.' % name
+            raise AttributeError('Attribute "%s" is read-only.' % name)
         self.__dict__[name] = value
 
     def Span(self):
@@ -823,10 +824,10 @@ def RunDoctest():
     doctest.testmod(verbose=True, raise_on_error=True)
 
 if __name__ == '__main__':
-    print '*' * 40
-    print '* Running Doctest tests on this file...'
-    print '* Remember, no news is good news'
-    print '*' * 40
+    print('*' * 40)
+    print('* Running Doctest tests on this file...')
+    print('* Remember, no news is good news')
+    print('*' * 40)
     RunDoctest()
 
 
