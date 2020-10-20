@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="gnp_pygame",
-    version="2.0.1",
+    version="2.1.0",
     description="Personal PyGame utilities",
     long_description=long_description,
     long_description_content_type="text/markdown",

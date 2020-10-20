@@ -328,12 +328,14 @@ class FontManager(object):
         self._font_dict = {}
         for pair in list_of_font_names_and_sizes_as_tuple:
             assert len(pair) == 2, 'Pair must be composed of a font name and a size  Ex:(\'arial\', 24)'
-            if pair[0]:
-                font_full_file_name = pygame.font.match_font(pair[0])
-                assert font_full_file_name, 'Font: %s Size: %d is not available.' % pair
-            else:
-                font_full_file_name = None # use default font
-            self._font_dict[pair] = pygame.font.Font(font_full_file_name, pair[1])
+            try:
+                print("Trying to load font:", pair[0])
+                font = pygame.font.Font(pair[0], pair[1])
+            except:
+                print(f'Could not load font "{pair[0]}", so trying to load as a SysFont, which may be the default font.')
+                font = pygame.font.SysFont(pair[0], pair[1])  # if font can not be found, will fall back to default font
+            print('Loaded font', pair[0], pair[1])
+            self._font_dict[pair] = font
 
     def draw(self, surface, font_name, size, text, rect_or_pos_to_draw_to, color, align_horiz='left', align_vert='top', antialias=False):
         """draw text with the given parameters on the given surface.
