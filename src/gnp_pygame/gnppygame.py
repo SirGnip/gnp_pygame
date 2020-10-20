@@ -788,7 +788,6 @@ class Joy(object):
         
     def __del__(self):
         if self._joy:
-            self._joy.quit()
             self._joy = None
             
     def is_valid(self):
