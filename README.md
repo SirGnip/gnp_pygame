@@ -45,3 +45,4 @@ they are:
 both doctests and unittest based tests. No tests are (currently) written
 using the pytest format.)
 
+![Hits](https://hitcounter.pythonanywhere.com/count/tag.svg?url=https%3A%2F%2Fgithub.com%2FSirGnip%2Fgnp_pygame)
